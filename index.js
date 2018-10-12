@@ -45,7 +45,7 @@ server.get('/api/actions/:id',(req,res)=>{
 // Post Request
 server.post('/api/actions',(req,res) =>{
   const{project_id,description,notes,completed} = req.body;
-  const newAction = {project_id,description,notes,completed}
+  const newAction = {project_id,description,notes,completed};
   console.log(newAction);
   res.send('Creating Action');
   actionDb.insert(newAction)
@@ -71,7 +71,7 @@ server.delete('/api/actions/:id',(req,res)=>{
 //put Request
 server.put('/api/actions/:id',(req,res)=>{
   const{project_id,description,notes,completed} = req.body;
-  const newAction = {project_id,description,notes,completed}
+  const newAction = {project_id,description,notes,completed};
   const id = req.params.id;
   actionDb.update(id,newAction)
   .then(action=>{
@@ -86,12 +86,12 @@ server.put('/api/actions/:id',(req,res)=>{
 //create new projects
 
 
-server.post('/api/projects',(req,res) =>{
-  const{description,name,completed} = req.body;
-  const newProject = {description,name,completed}
-  console.log(newProject);
-  res.send('Creating project');
-  projectDb.insert(newProject)
+server.post('/api/projects/create',(req,res) =>{
+  const{id,name,description,completed} = req.body;
+
+  console.log(req.body);
+res.send("Created Project")
+  projectDb.insert(req.body)
   .then(actions=>{
     console.log('Success',actions);
 
@@ -118,7 +118,7 @@ server.put('/api/projects/:id',(req,res)=>{
 
 //delete projects
 server.delete('/api/projects/:id',(req,res)=>{
-  actionDb.remove(req.params.id)
+  projectDb.remove(req.params.id)
   .then(action=> {
     console.log('Success',action)
     res.send('Action Successful Deleted')
@@ -171,18 +171,6 @@ server.get('/api/projects/:project_id/actions',(req,res)=>{
     res.send(err)
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
