@@ -8,8 +8,7 @@ exports.seed = function(knex, Promise) {
         {
           project_id: 1,
           description: 'Fork and Clone Repository',
-          notes:
-            'Repo URL: https://github.com/LambdaSchool/Sprint-Challenge-Node-Express',
+          notes: 'Repo URL: https://github.com/LambdaSchool/Sprint-Challenge-Node-Express',
         },
         {
           project_id: 1,
