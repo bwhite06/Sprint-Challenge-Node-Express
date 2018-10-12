@@ -2,8 +2,8 @@ const express = require('express');
 const server = express();
 const port = 3005;
 const cors = require('cors');
-const actionDb = require('data\helpers\actionModel.js')
-const projectDb = require('data\helpers\projectModel.js')
+const actionDb = require('./data/helpers/actionModel.js')
+const projectDb = require('./data/helpers/projectModel.js')
 
 
 
@@ -13,7 +13,7 @@ server.use(express.json());//use json data
 
 
 
-// Action Requests
+// ====Action Requests====
 
 
 //get action
@@ -44,20 +44,41 @@ server.get('/api/actions/:id',(req,res)=>{
 
 // Post Request
 server.post('/api/actions',(req,res) =>{
-  const{project_id,description,notes}= req.body;
-  const newAction = {project_id,description,notes}
+  const{project_id,description,notes,completed} = req.body;
+  const newAction = {project_id,description,notes,completed}
   console.log(newAction);
   res.send('Creating Action');
   actionDb.insert(newAction)
   .then(actions=>{
     console.log('Success',actions);
-    res.send('Action Created')
+
   })
   .catch(err=>{
     res.send(err)
   })
 })
 
+// delete Request
+server.delete('/api/actions/:id',(req,res)=>{
+  actionDb.remove(req.params.id)
+  .then(action=> {
+    console.log('Success',action)
+    res.send('Action Successful Deleted')
+  })
+  .catch(err=>{res.send(err)})
+})
+
+//put Request
+server.put('/api/actions/:id',(req,res)=>{
+  const{project_id,description,notes,completed} = req.body;
+  const newAction = {project_id,description,notes,completed}
+  const id = req.params.id;
+  actionDb.update(id,newAction)
+  .then(action=>{
+    console.log('Success',action);
+    res.send(action)
+  })
+})
 
 
 // Project Requests
