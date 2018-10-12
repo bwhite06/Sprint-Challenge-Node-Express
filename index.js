@@ -81,7 +81,110 @@ server.put('/api/actions/:id',(req,res)=>{
 })
 
 
-// Project Requests
+// ====Project Requests====
+
+//create new projects
+
+
+server.post('/api/projects',(req,res) =>{
+  const{description,name,completed} = req.body;
+  const newProject = {description,name,completed}
+  console.log(newProject);
+  res.send('Creating project');
+  projectDb.insert(newProject)
+  .then(actions=>{
+    console.log('Success',actions);
+
+  })
+  .catch(err=>{
+    res.send(err)
+  })
+})
+
+//edit project
+server.put('/api/projects/:id',(req,res)=>{
+  const{description,name,completed} = req.body;
+  const newProject = {description,name,completed}
+  const id = req.params.id;
+  projectDb.update(id,newProject)
+  .then(action=>{
+    console.log('Success',action);
+    res.send(action)
+  })
+  .catch(err=>{
+    res.send(err)
+  })
+});
+
+//delete projects
+server.delete('/api/projects/:id',(req,res)=>{
+  actionDb.remove(req.params.id)
+  .then(action=> {
+    console.log('Success',action)
+    res.send('Action Successful Deleted')
+  })
+  .catch(err=>{res.send(err)})
+})
+
+
+
+
+//gets all projects
+server.get('/api/projects',(req,res)=>{
+  projectDb.get()
+  .then(actions=>{
+    console.log('Success',actions)
+    res.status(200).json(actions)
+  })
+  .catch(err =>{
+    res.send(err);
+  })
+})
+
+
+//get project
+
+server.get('/api/projects/:id',(req,res)=>{
+  projectDb.get(req.params.id)
+  .then(action => {
+    console.log('Success',action);
+    res.status(200).json(action)
+  })
+  .catch(err =>{
+    res.send(err)
+  })
+})
+
+
+
+
+// get project actions
+server.get('/api/projects/:project_id/actions',(req,res)=>{
+
+
+  projectDb.getProjectActions(req.params.project_id)
+  .then(action => {
+    console.log('Success',action);
+    res.status(200).json(action)
+  })
+  .catch(err =>{
+    res.send(err)
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // server listening
