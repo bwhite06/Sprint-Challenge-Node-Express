@@ -104,9 +104,10 @@ res.send("Created Project")
 //edit project
 server.put('/api/projects/:id',(req,res)=>{
   const{description,name,completed} = req.body;
-  const newProject = {description,name,completed}
+
   const id = req.params.id;
-  projectDb.update(id,newProject)
+  console.log(req.body)
+  projectDb.update(id,req.body)
   .then(action=>{
     console.log('Success',action);
     res.send(action)
@@ -177,5 +178,5 @@ server.get('/api/projects/:project_id/actions',(req,res)=>{
 
 // server listening
 server.listen(port,()=>{
-  console.log(`===API Running on ${port}` )
+  console.log(`===API Running on ${port}===` )
 })
